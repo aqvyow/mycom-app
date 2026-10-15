@@ -1,4 +1,4 @@
 # Everyone may change the package code; changes to the CI configuration need a
 # release approver. Paired with "Require review from Code Owners" on main.
 
-/.github/workflows/ @cuvhd98239
+/.github/workflows/ @mycom-lab/mycom-approvers
