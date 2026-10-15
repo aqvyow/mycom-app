@@ -1,0 +1,50 @@
+name: CI
+
+# Read-only checks: this workflow only checks out code and runs the test suite.
+# It publishes and commits nothing, so it needs no write scopes.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test (python ${{ matrix.python }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Setup Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install
+        run: |
+          set -euo pipefail
+          python -m pip install --quiet --disable-pip-version-check ".[test]"
+
+      - name: Test
+        run: python -m pytest -q
+
+      - name: Build the wheel to prove packaging works
+        run: |
+          set -euo pipefail
+          python -m pip install --quiet --disable-pip-version-check build
+          python -m build --outdir dist
