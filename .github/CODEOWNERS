@@ -1,4 +1,4 @@
 # Everyone may change the package code; changes to the CI configuration need a
 # release approver. Paired with "Require review from Code Owners" on main.
 
-/.github/workflows/ @aqvyow
+/.github/workflows/ @cuvhd98239
