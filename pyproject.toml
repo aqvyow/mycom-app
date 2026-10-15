@@ -1,5 +1,8 @@
 [build-system]
-requires = ["hatchling>=1.25"]
+# Upper bound on purpose: newer hatchling releases emit Metadata-Version 2.5,
+# which the publish action's bundled tooling rejects ("'2.5' is not a valid
+# metadata version"). 1.26 emits 2.3.
+requires = ["hatchling>=1.25,<1.27"]
 build-backend = "hatchling.build"
 
 [project]
